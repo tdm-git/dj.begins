@@ -1,13 +1,8 @@
-import time
-
 from django.shortcuts import render
 
 from datetime import date
-import os
-import json
 from .models import ProductsCategory, Products
 
-MODULE_DIR = os.path.dirname(__file__)
 
 # Create your views here.
 # Контроллер функции
