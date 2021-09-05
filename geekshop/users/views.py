@@ -21,12 +21,11 @@ def login(request):
             else:
                 print(form.errors)
     else:
-
         form = UserLoginForm()
-        context = {
-            'title': 'Авторизация',
-            'form': form
-        }
+    context = {
+        'title': 'Авторизация',
+        'form': form
+    }
 
     return render(request, 'users/login.html', context)
 
@@ -41,10 +40,10 @@ def register(request):
             print(form.errors)
     else:
         form = UserRegisterForm()
-        context = {
-            'title': 'Регистрация',
-            'form': form
-        }
+    context = {
+        'title': 'Регистрация',
+        'form': form
+    }
     return render(request, 'users/register.html', context)
 
 
