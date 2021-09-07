@@ -10,7 +10,7 @@ def index(request):
     context = {'title': 'Главная',
                'curr_date': date.today()}
 
-    return render(request, 'index.html', context)
+    return render(request, 'products/index.html', context)
 
 def products(request):
     content = {'title': 'Каталог',
@@ -18,4 +18,4 @@ def products(request):
                'categories': ProductsCategory.objects.all(),
                'products': Products.objects.all()}
 
-    return render(request, 'products.html', content)
+    return render(request, 'products/products.html', content)

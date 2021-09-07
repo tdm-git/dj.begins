@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'products/base.html' %}
 {% load static %}
 
 {% block title %}
@@ -62,7 +62,7 @@
                         <div class="card h-100">
                             <a href="#">
                                 <img class="card-img-top"
-                                     src="/media/{{product.image}}"
+                                     src="{{product.image.url}}"
                                      alt="">
                             </a>
                             <div class="card-body">

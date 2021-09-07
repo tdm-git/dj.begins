@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django import forms
 
 from .models import User
@@ -15,7 +15,7 @@ class UserLoginForm(AuthenticationForm):
         fields = ('username', 'password')
 
 
-class UserRegisterForm(AuthenticationForm):
+class UserRegisterForm(UserCreationForm):
 
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4',
                                                              'placeholder': 'Введите имя пользователя'}))
@@ -34,3 +34,24 @@ class UserRegisterForm(AuthenticationForm):
         model = User
         fields = ('username', 'email', 'first_name','last_name', 'password1', 'password2')
 
+
+class UserProfileForm(UserChangeForm):
+
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4', 'readonly': True}))
+    email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control py-4', 'readonly': True}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4',
+                                                               'placeholder': 'Введите имя '}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4',
+                                                              'placeholder': 'Введите фамилию'}))
+    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'custom-file-input'}), required=False)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'first_name','last_name', 'image')
+
+    def clean_image(self):
+        data = self.cleaned_data['image']
+        if data.size > 1024:
+            raise forms.ValidationError('Слишком большой размер файла!')
+
+        return data
