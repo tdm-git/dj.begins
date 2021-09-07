@@ -1,9 +1,8 @@
 from django.shortcuts import render, HttpResponseRedirect
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.urls import reverse
 from .models import User
 from .forms import UserLoginForm, UserRegisterForm
-
 
 # Create your views here.
 # Контроллер функции
@@ -18,8 +17,8 @@ def login(request):
             if user and user.is_active:
                 auth.login(request, user)
                 return HttpResponseRedirect(reverse('index'))
-            else:
-                print(form.errors)
+            # else:
+            #     print(form.errors)
     else:
         form = UserLoginForm()
     context = {
@@ -35,18 +34,21 @@ def register(request):
         form = UserRegisterForm(data=request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request,'Вы зарегистрировались на сайте')
             return HttpResponseRedirect(reverse('users:login'))
-        else:
-            print(form.errors)
+        # else:
+        #     print(form.errors)
     else:
         form = UserRegisterForm()
     context = {
         'title': 'Регистрация',
         'form': form
     }
+
     return render(request, 'users/register.html', context)
 
 
 def logout(request):
     auth.logout(request)
+
     return HttpResponseRedirect(reverse('index'))
