@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.contrib.auth.decorators import login_required
 from datetime import date
 from .models import ProductsCategory, Products
 
@@ -11,6 +11,7 @@ def index(request):
                'curr_date': date.today()}
 
     return render(request, 'products/index.html', context)
+
 
 def products(request):
     content = {'title': 'Каталог',

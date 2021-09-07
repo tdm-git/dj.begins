@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # new
     'products',
     'users',
+    'baskets',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL='users.User'
+LOGIN_URL = '/user/login/'
