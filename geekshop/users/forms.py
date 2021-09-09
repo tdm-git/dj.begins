@@ -49,9 +49,9 @@ class UserProfileForm(UserChangeForm):
         model = User
         fields = ('username', 'email', 'first_name','last_name', 'image')
 
-    def clean_image(self):
-        data = self.cleaned_data['image']
-        if data.size > 1024:
-            raise forms.ValidationError('Слишком большой размер файла!')
-
-        return data
+    # def clean_image(self):
+    #     data = self.cleaned_data['image']
+    #     if data.size > 1024:
+    #         raise forms.ValidationError('Слишком большой размер файла!')
+    #
+    #     return data
