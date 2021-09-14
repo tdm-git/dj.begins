@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.urls import path, include
 
-app_name = 'baskets'
+app_name = 'admins'
 
 from baskets.views import basket_add, basket_remove, basket_edit
 
