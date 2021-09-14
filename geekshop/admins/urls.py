@@ -4,10 +4,12 @@ from django.urls import path, include
 
 app_name = 'admins'
 
-from baskets.views import basket_add, basket_remove, basket_edit
+from admins.views import index, admin_users, admin_users_create, admin_users_update, admin_users_delete
 
 urlpatterns = [
-   path('basket_add/<int:id>', basket_add, name='basket_add'),
-   path('delete/<int:id>', basket_remove, name='basket_remove'),
-   path('edit/<int:id>/<int:quantity>/', basket_edit, name='basket_edit'),
+   path('', index, name='index'),
+   path('users/', admin_users, name='admin_users'),
+   path('user-create', admin_users_create, name='admin_users_create'),
+   path('user-update/<int:id>', admin_users_update, name='admin_users_update'),
+   path('user-delete/<int:id>', admin_users_delete, name='admin_users_delete'),
 ]
