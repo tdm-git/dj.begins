@@ -6,7 +6,7 @@ from products.models import ProductsCategory, Products
 from django.contrib.auth.decorators import user_passes_test
 
 # Create your views here.
-from admins.forms import UserAdminRegisterForm, UserAdminProfileForm, CategoryAdminForm
+from admins.forms import UserAdminRegisterForm, UserAdminProfileForm, CategoryAdminForm, ProductsAdminForm
 
 
 def index(request):
@@ -112,3 +112,42 @@ def admin_products(request):
         'products': Products.objects.all(),
     }
     return render(request, 'admins/admin-products-list.html', context)
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_products_create(request):
+
+    if request.method == 'POST':
+        form = ProductsAdminForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('admins:admin_products'))
+    else:
+        form = ProductsAdminForm()
+    context = {
+        'title': 'Новый товар',
+        'form': form
+    }
+    return render(request, 'admins/admin-products-create.html', context)
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_products_update(request, id):
+    product_select = Products.objects.get(id=id)
+    if request.method == 'POST':
+        form = ProductsAdminForm(data=request.POST, instance=product_select, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('admins:admin_products'))
+    else:
+        form = ProductsAdminForm(instance=product_select)
+    context = {
+        'title': 'Профиль',
+        'product_select': product_select,
+        'form': form
+    }
+    return render(request, 'admins/admin-products-update-delete.html', context)
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_products_delete(request, id):
+    product_select = Products.objects.get(id=id)
+    product_select.delete()
+    return HttpResponseRedirect(reverse('admins:admin_products'))
