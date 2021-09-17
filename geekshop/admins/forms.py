@@ -36,17 +36,15 @@ class ProductsAdminForm(forms.ModelForm):
     image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'custom-file-input'}), required=False)
     price = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Цена'}))
     quantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Количество'}))
-    # category = forms.ChoiceField(widget=forms.Select(
-    #     attrs={'class': 'form-control', 'placeholder': 'Service used as base of this service pool'}),
-    #     label='Base service',choices=ProductsCategory.objects.all()
-    #     )
-    category = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control py-4', 'placeholder':'Категория товара'}))
+
+    category = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control py-4', 'placeholder':'Категория товара'}),
+                                 label='Категория', choices=ProductsCategory.objects.values_list('id','name'))
 
     class Meta:
-        model = User
+        model = Products
         fields = ('name', 'image', 'description', 'price', 'quantity', 'category')
 
-    def __init__(self, *args, **kwargs):
-        super(ProductsAdminForm, self).__init__(*args, **kwargs)
-        service = ProductsCategory.objects.values_list('id', 'name')
-        self.fields['category'].choices = service
+    # def __init__(self, *args, **kwargs):
+    #     super(ProductsAdminForm, self).__init__(*args, **kwargs)
+    #     service = ProductsCategory.objects.values_list('id','name')
+    #     self.fields['category'].choices = service

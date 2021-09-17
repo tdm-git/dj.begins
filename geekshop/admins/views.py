@@ -12,12 +12,14 @@ from admins.forms import UserAdminRegisterForm, UserAdminProfileForm, CategoryAd
 def index(request):
     return render(request, 'admins/admin.html')
 
+
 @user_passes_test(lambda u: u.is_superuser)
 def admin_users(request):
     context = {
         'users': User.objects.all(),
     }
     return render(request, 'admins/admin-users-read.html', context)
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def admin_users_create(request):
@@ -34,6 +36,7 @@ def admin_users_create(request):
         'form': form
     }
     return render(request, 'admins/admin-users-create.html', context)
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def admin_users_update(request, id):
@@ -52,6 +55,7 @@ def admin_users_update(request, id):
     }
     return render(request, 'admins/admin-users-update-delete.html', context)
 
+
 @user_passes_test(lambda u: u.is_superuser)
 def admin_users_delete(request, id):
     user_select = User.objects.get(id=id)
@@ -60,12 +64,14 @@ def admin_users_delete(request, id):
     # user_select.delete()
     return HttpResponseRedirect(reverse('admins:admin_users'))
 
+
 @user_passes_test(lambda u: u.is_superuser)
 def admin_category(request):
     context = {
         'categories': ProductsCategory.objects.all(),
     }
     return render(request, 'admins/admin-category-list.html', context)
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def admin_category_create(request):
@@ -83,11 +89,12 @@ def admin_category_create(request):
     }
     return render(request, 'admins/admin-category-create.html', context)
 
+
 @user_passes_test(lambda u: u.is_superuser)
 def admin_category_update(request, id):
     category_select = ProductsCategory.objects.get(id=id)
     if request.method == 'POST':
-        form = CategoryAdminForm(data=request.POST, instance=category_select, files=request.FILES)
+        form = CategoryAdminForm(data=request.POST, instance=category_select)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('admins:admin_category'))
@@ -100,11 +107,13 @@ def admin_category_update(request, id):
     }
     return render(request, 'admins/admin-category-update-delete.html', context)
 
+
 @user_passes_test(lambda u: u.is_superuser)
 def admin_category_delete(request, id):
     category_select = ProductsCategory.objects.get(id=id)
     category_select.delete()
     return HttpResponseRedirect(reverse('admins:admin_category'))
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def admin_products(request):
@@ -113,9 +122,9 @@ def admin_products(request):
     }
     return render(request, 'admins/admin-products-list.html', context)
 
+
 @user_passes_test(lambda u: u.is_superuser)
 def admin_products_create(request):
-
     if request.method == 'POST':
         form = ProductsAdminForm(data=request.POST, files=request.FILES)
         if form.is_valid():
@@ -128,6 +137,7 @@ def admin_products_create(request):
         'form': form
     }
     return render(request, 'admins/admin-products-create.html', context)
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def admin_products_update(request, id):
@@ -145,6 +155,7 @@ def admin_products_update(request, id):
         'form': form
     }
     return render(request, 'admins/admin-products-update-delete.html', context)
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def admin_products_delete(request, id):
