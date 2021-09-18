@@ -32,19 +32,21 @@ class CategoryAdminForm(forms.ModelForm):
 class ProductsAdminForm(forms.ModelForm):
 
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4', 'placeholder': 'Наименование'}))
-    description = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4', 'placeholder': 'Описание'}))
     image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'custom-file-input'}), required=False)
+    description = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4', 'placeholder': 'Описание'}))
     price = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Цена'}))
     quantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Количество'}))
 
-    category = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control py-4', 'placeholder':'Категория товара'}),
-                                 label='Категория', choices=ProductsCategory.objects.values_list('id','name'))
+    # category = forms.ModelChoiceField(queryset=ProductsCategory.objects.all())
+    category = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Категория товара'}))
+    # category = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Категория товара'}),
+    #                               label='pk', choices=ProductsCategory.objects.values_list('pk','name'))
 
     class Meta:
         model = Products
         fields = ('name', 'image', 'description', 'price', 'quantity', 'category')
 
-    # def __init__(self, *args, **kwargs):
-    #     super(ProductsAdminForm, self).__init__(*args, **kwargs)
-    #     service = ProductsCategory.objects.values_list('id','name')
-    #     self.fields['category'].choices = service
+    def __init__(self, *args, **kwargs):
+        super(ProductsAdminForm, self).__init__(*args, **kwargs)
+        self.fields['category'].choices = ProductsCategory.objects.values_list('id','name')
+
