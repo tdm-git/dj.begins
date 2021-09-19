@@ -37,8 +37,9 @@ class ProductsAdminForm(forms.ModelForm):
     price = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Цена'}))
     quantity = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Количество'}))
 
-    # category = forms.ModelChoiceField(queryset=ProductsCategory.objects.all())
-    category = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Категория товара'}))
+    category = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Категория товара'}),
+                                      queryset=ProductsCategory.objects.all())
+    # category = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Категория товара'}))
     # category = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Категория товара'}),
     #                               label='pk', choices=ProductsCategory.objects.values_list('pk','name'))
 
@@ -46,7 +47,7 @@ class ProductsAdminForm(forms.ModelForm):
         model = Products
         fields = ('name', 'image', 'description', 'price', 'quantity', 'category')
 
-    def __init__(self, *args, **kwargs):
-        super(ProductsAdminForm, self).__init__(*args, **kwargs)
-        self.fields['category'].choices = ProductsCategory.objects.values_list('id','name')
+    # def __init__(self, *args, **kwargs):
+    #     super(ProductsAdminForm, self).__init__(*args, **kwargs)
+    #     self.fields['category'].choices = ProductsCategory.objects.values_list('id','name')
 
